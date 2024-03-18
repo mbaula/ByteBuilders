@@ -19,10 +19,13 @@ npm install
 ```
 
 3. **Configuration:**
-Create a .env file in the root directory based on the .env.example provided.
+Create a .env file in the root directory based on the `.env.example` provided.
 
-**To contribute:**
+## To contribute:
 1. Fork the repository.
-2. Create a new branch for your feature or fix (Ex: "Name_IssueFixed_IssueNum").
-3. Commit your changes.
-4. Push to your fork and submit a pull request.
+2. Create a new branch for your feature or fix (e.g., `feature_add_login`, `fix_typo_in_post`).
+3. Run tests to ensure your changes do not introduce any new issues.
+4. Commit your changes.
+5. Push to your fork and submit a pull request.
+
+When submitting a pull request, please provide a clear description of the changes and any relevant issue numbers.
