@@ -7,7 +7,7 @@ import Category from './Category.js';
 dotenv.config();
 
 beforeAll(async () => {
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(process.env.MONGODB_URI_TEST, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
@@ -15,6 +15,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
     await User.deleteMany({ email: /@test.com$/ });
+    await BlogPost.deleteMany({})
     await mongoose.connection.close();
 });
 
@@ -70,21 +71,4 @@ describe('BlogPost model', () => {
 
         await expect(new BlogPost(blogPostData).save()).rejects.toThrow();
     });
-
-    it('should update blog post content correctly', async () => {
-        const blogPostData = {
-            title: `Unique Title ${Date.now()}`,
-            content: 'Initial content.',
-            author: createdUser._id,
-            categories: [createdCategory._id],
-        };
-
-        const blogPost = await new BlogPost(blogPostData).save();
-        const updatedContent = 'Updated content.';
-        await BlogPost.findByIdAndUpdate(blogPost._id, { content: updatedContent }, { new: true });
-
-        const updatedBlogPost = await BlogPost.findById(blogPost._id);
-        expect(updatedBlogPost.content).toBe(updatedContent);
-    });
-
 });

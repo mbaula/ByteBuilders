@@ -5,7 +5,7 @@ import Category from './Category.js';
 dotenv.config();
 
 beforeAll(async () => {
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(process.env.MONGODB_URI_TEST, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });

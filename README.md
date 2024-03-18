@@ -19,7 +19,19 @@ npm install
 ```
 
 3. **Configuration:**
-Create a .env file in the root directory based on the `.env.example` provided.
+Create a .env file in the root directory based on the `.env.example` provided:
+```.env
+MONGODB_URI=
+MONGODB_URI_TEST=
+PORT= 
+```
+
+## Running Tests:
+Before contributing, please ensure to run the tests against a separate test database to avoid affecting any development or production data. Configure the MONGODB_URI_TEST environment variable to point to your test database when running tests:
+```bash 
+npm test 
+```
+This helps in ensuring that your changes do not break existing functionality and adheres to the expected behavior of the application.
 
 ## To contribute:
 1. Fork the repository.

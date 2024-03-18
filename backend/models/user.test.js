@@ -5,7 +5,7 @@ import User from './User.js';
 dotenv.config();
 
 beforeAll(async () => {
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(process.env.MONGODB_URI_TEST, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
@@ -57,17 +57,23 @@ describe('User model', () => {
     });
 
     it('should fail if the email is not unique', async () => {
+        // Use a unique timestamp to ensure the email is unique for this test
+        const uniqueSuffix = Date.now().toString();
+        const email = `unique${uniqueSuffix}@test.com`;
+        
         const userData = {
             username: 'testUserUnique',
-            email: 'unique@test.com',
+            email: email,
             passwordHash: 'password123',
         };
-        
-        // Create first user
-        await new User(userData).save();
-        
-        // Attempt to create second user with the same email
-        userData.username = 'testUserUnique2';
-        await expect(new User(userData).save()).rejects.toThrow();
+
+        await User.deleteMany({ email: email });
+
+        const user1 = await new User(userData).save();
+
+        const userData2 = { ...userData, username: 'testUserUnique2' };
+        await expect(new User(userData2).save()).rejects.toThrow();
+
+        await User.deleteMany({ email: email });
     });
 });
