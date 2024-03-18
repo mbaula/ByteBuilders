@@ -1,17 +1,52 @@
 {
     "env": {
-        "node": true,
+        "es2021": true,
         "jest": true
+    },
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+        "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module",
+        "requireConfigFile": false
     },
     "extends": [
         "eslint:recommended",
-        "plugin:jest/recommended",
-        "plugin:node/recommended"
+        "plugin:react/recommended",
+        "plugin:jest/recommended"
     ],
     "plugins": [
-        "jest",
-        "node"
+        "react",
+        "jest"
     ],
-    "rules": {}
-  }
+    "rules": {
+        "react/react-in-jsx-scope": "off"
+    },
+    "settings": {
+        "react": {
+        "version": "detect"
+        }
+    },
+    "overrides": [
+        {
+        "files": ["backend/**/*.js", "backend/**/*.jsx"],
+        "env": {
+            "node": true,
+            "jest": true
+        }
+        },
+        {
+        "files": ["src/**/*.js", "src/**/*.jsx"],
+        "env": {
+            "browser": true,
+            "jest": true
+        },
+        "rules": {
+            "node/no-unpublished-import": "off"
+        }
+        }
+    ]
+}
   
