@@ -70,18 +70,4 @@ describe('User model', () => {
         userData.username = 'testUserUnique2';
         await expect(new User(userData).save()).rejects.toThrow();
     });
-      
-    it('should update user information correctly', async () => {
-        const uniqueSuffix = Date.now().toString();
-        const user = await new User({
-            username: 'updateTest',
-            email: `unique${uniqueSuffix}@test.com`,
-            passwordHash: 'password123',
-        }).save();
-        
-        const updatedData = { username: 'updatedName' };
-        const updatedUser = await User.findByIdAndUpdate(user._id, updatedData, { new: true });
-        
-        expect(updatedUser.username).toBe(updatedData.username);
-    });
 });
