@@ -57,9 +57,7 @@ describe('User model', () => {
     });
 
     it('should fail if the email is not unique', async () => {
-        // Use a unique timestamp to ensure the email is unique for this test
-        const uniqueSuffix = Date.now().toString();
-        const email = `unique${uniqueSuffix}@test.com`;
+        const email = `duplicate_email@test.com`;
         
         const userData = {
             username: 'testUserUnique',
@@ -71,7 +69,12 @@ describe('User model', () => {
 
         const user1 = await new User(userData).save();
 
-        const userData2 = { ...userData, username: 'testUserUnique2' };
+        const userData2 = {
+            username: 'testUserUnique1',
+            email: email,
+            passwordHash: 'password123',
+        };
+
         await expect(new User(userData2).save()).rejects.toThrow();
 
         await User.deleteMany({ email: email });
