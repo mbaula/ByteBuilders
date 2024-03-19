@@ -2,6 +2,8 @@
 
 ByteBuilder is a specialized blogging platform designed for software engineers and technology enthusiasts. In a world brimming with technological advancements, ByteBuilder serves as a dedicated space for sharing insights, challenges, and discoveries in the realm of cutting-edge technology.
 
+**NOTE**: This is for college project (do not make contributions unless you are part of Group 5 - COMP 229 Sec. 003)
+
 ## Installation
 
 Setting up ByteBuilder for development or personal use is straightforward:
