@@ -69,13 +69,9 @@ describe('User model', () => {
 
         const user1 = await new User(userData).save();
 
-        const userData2 = {
-            username: 'testUserUnique1',
-            email: email,
-            passwordHash: 'password123',
-        };
+        const userData2 = { ...userData, username: 'testUserUnique2' };
 
-        await expect(new User(userData2).save()).rejects.toThrow();
+        await expect(new User(userData2).save()).rejects.toThrow(/duplicate key error/i);
 
         await User.deleteMany({ email: email });
     });

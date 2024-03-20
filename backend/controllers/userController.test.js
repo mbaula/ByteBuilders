@@ -17,7 +17,6 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  // Ensure the database is in a clean state before each test
   await User.deleteMany({});
 });
 
