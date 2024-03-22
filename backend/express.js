@@ -4,7 +4,8 @@ import bodyParser from 'body-parser';
 
 import userRoutes from './routes/userRoutes.js';
 import blogPostRoutes from './routes/blogPostRoutes.js';
-import categoryRoutes from './routes/categoryRoutes.js'
+import categoryRoutes from './routes/categoryRoutes.js';
+import commentRoutes from './routes/commentRoutes.js';
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', userRoutes);
 app.use('/api/blogposts', blogPostRoutes);
-app.use('/api/categories', categoryRoutes)
+app.use('/api/categories', categoryRoutes);
+app.use('/api/comments', commentRoutes);
 
 export default app;
