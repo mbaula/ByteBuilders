@@ -9,10 +9,11 @@ beforeAll(async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
+    await mongoose.connection.db.collection('users').createIndexes([{ key: { email: 1 }, unique: true }]);
 });
 
 afterAll(async () => {
-    await User.deleteMany({ email: /@test.com$/ });
+    await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
 });
 

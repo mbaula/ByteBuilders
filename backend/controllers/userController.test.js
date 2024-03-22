@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import app from '../express.js'; 
 import User from '../models/User.js';
 
-
 beforeAll(async () => {
   await mongoose.connect(process.env.MONGODB_URI_TEST, {
     useNewUrlParser: true,
