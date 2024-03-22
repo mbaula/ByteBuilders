@@ -1,3 +1,5 @@
+import Comment from "../models/Comment.js";
+
 export const createComment = async (req, res) => {
   try {
     const { content, post, author } = req.body;
@@ -15,7 +17,7 @@ export const getCommentById = async (req, res) => {
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
     }
-    res.status(200).json(user);
+    res.status(200).json(comment);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
