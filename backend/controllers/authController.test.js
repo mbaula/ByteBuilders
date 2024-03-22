@@ -41,17 +41,17 @@ describe('Auth Controller', () => {
         const user = new User({
             username: 'testUser',
             email: 'test@example.com',
-            passwordHash: bcrypt.hashSync('password123', 10),
+            password: 'password123',
         });
         await user.save();
-
+    
         const response = await request(app)
             .post('/api/signin')
             .send({
                 email: 'test@example.com',
                 password: 'password123',
             });
-
+    
         expect(response.statusCode).toBe(200);
         expect(response.body).toHaveProperty('token');
         expect(response.body.user.email).toBe('test@example.com');

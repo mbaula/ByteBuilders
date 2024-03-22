@@ -1,15 +1,15 @@
 import User from '../models/User.js'; 
 import jwt from 'jsonwebtoken';
 import config from '../config/config.js';
-import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
 export const signin = async (req, res) => {
     try {
         let user = await User.findOne({ email: req.body.email });
         if (!user) return res.status(401).json({ error: "User not found" });
 
-        if (!bcrypt.compareSync(req.body.password, user.passwordHash)) {
-        return res.status(401).send({ error: "Email and password don't match." });
+        if (!user.authenticate(req.body.password)) {
+            return res.status(401).send({ error: "Email and password don't match." });
         }
 
         const token = jwt.sign({ _id: user._id }, config.jwtSecret, { expiresIn: '1d' });
