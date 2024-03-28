@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start:frontend": "vite --config vite.config.js",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
@@ -12,6 +13,11 @@
     "dev": "nodemon backend/server.js"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -19,6 +25,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "express-jwt": "^8.4.1",
+    "framer-motion": "^11.0.23",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.2",
     "react": "^18.2.0",
@@ -30,6 +37,7 @@
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
     "@vitejs/plugin-react-swc": "^3.5.0",
+    "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-plugin-jest": "^27.9.0",
