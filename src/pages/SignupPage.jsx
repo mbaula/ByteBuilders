@@ -4,6 +4,8 @@ import {
 } from '@chakra-ui/react';
 import bytebuilderlogo from '.././assets/bytebuilder-logo.png';
 import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const SignupPage = () => {
   const toast = useToast();
@@ -13,6 +15,9 @@ const SignupPage = () => {
   const boxShadow = useColorModeValue('0px 4px 25px -2px rgba(0, 0, 0, 0.4)', '0px 4px 25px -2px rgba(255, 255, 255, 0.1)');
 
   const passwordRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{7,}$');
+
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -70,7 +75,8 @@ const SignupPage = () => {
           duration: 5000,
           isClosable: true,
         });
-        // Optional: Redirect user or clear form here
+        login(); 
+        navigate('/'); 
       } else {
         throw new Error(json.error || 'Something went wrong');
       }

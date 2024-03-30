@@ -15,10 +15,11 @@ import {
   DrawerCloseButton
 } from '@chakra-ui/react';
 import { HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn } = useAuth();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); 
   const hoverColor = "#3fbeff";
 
