@@ -39,9 +39,10 @@ const Navbar = () => {
       bg={useColorModeValue('gray.100', 'gray.900')}
       color={useColorModeValue('gray.900', 'gray.100')}
       wrap="wrap"
+      mb={4}
     >
       {menuItemsLeft.map((item, index) => (
-        <Box key={index} mx={100} display={{ base: "none", md: "block" }}>
+        <Box key={index} mx={100} display={{ base: "none", md: "block" }} >
           <Link
             href={`/${item.toLowerCase()}`}
             _hover={{ textDecoration: 'none', color: hoverColor }}
