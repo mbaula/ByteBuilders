@@ -5,7 +5,8 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         trim: true,
-        required: 'Username is required'
+        required: 'Username is required',
+        unique: true
     },
     email: {
         type: String,
@@ -20,6 +21,14 @@ const userSchema = new mongoose.Schema({
     },
     salt: String,
     profile: {
+        fullName: {
+            type: String,
+            trim: true
+        },
+        phoneNumber: {
+            type: String,
+            trim: true
+        },
         bio: {
             type: String,
             trim: true

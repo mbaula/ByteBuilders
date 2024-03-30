@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "cross-env NODE_ENV=test node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --retryTimes=3 --runInBand",
     "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js"
+    "start:backend": "nodemon backend/server.js",
+    "start:dev": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",

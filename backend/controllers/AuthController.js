@@ -26,7 +26,11 @@ export const signup = async (req, res) => {
         await user.save();
         return res.status(200).json({ message: "Successfully signed up!" });
     } catch (err) {
-        return res.status(400).json({ error: err.message });
+        if (err.code === 11000) {
+            const field = Object.keys(err.keyPattern)[0];
+            return res.status(400).json({ error: `An account with that ${field} already exists.` });
+        }
+        return res.status(400).json({ error: 'An unexpected error occurred.' });
     }
 };
 
