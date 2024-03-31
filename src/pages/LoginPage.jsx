@@ -88,7 +88,7 @@ const LoginPage = () => {
         bg={formBackground}
         p={{ base: 4, sm: 8 }}
         m="auto"
-        borderRadius="80px"
+        borderRadius="20px"
         boxShadow={boxShadow}
         width={{ base: "90vw", sm: "60vw", md: "30vw", lg: "30vw" }}
         height="auto"
