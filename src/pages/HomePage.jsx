@@ -19,14 +19,6 @@ const HomePage = () => {
     borderRadius: "35px",
     position: "relative", // Needed to position the background image absolutely
     overflow: "hidden"
-/*we can also use things like
-filter: 'blur(2px)',
-':hover':{
-  color: 'black',
-  bg: 'blue.200'
-}
-    * 
- */
   }
 
   const boxBgImg={
@@ -34,7 +26,7 @@ filter: 'blur(2px)',
       backgroundSize: "cover",
       backgroundPosition:"right",
       backgroundRepeat:"no-repeat",
-      opacity: "0.1", // Adjust for desired opacity
+      opacity: "0.1", 
       position: "absolute",
       right: "0",
       top: "0",
@@ -60,7 +52,7 @@ filter: 'blur(2px)',
       <Navbar />
 
       <Container style={{ textAlign: 'left', marginTop: '20px' }} maxWidth="2xl" >
-
+      <Container>
         <Heading my="50px">Byte-Builders</Heading>
 
         <Text>is the fresh, dynamic blogging spot for tech
@@ -76,6 +68,13 @@ filter: 'blur(2px)',
         <Box textAlign="left">
           <Button sx={ourElegantButton} marginLeft="auto">Sign Up</Button>
         </Box>
+        </Container>
+
+        <Box backgroundImage={bgByteBuilders} height="400px" // Adjust based on your desired visibility
+  width="100%" // This could be adjusted as well
+  backgroundSize="contain"
+  backgroundPosition="center"
+  backgroundRepeat="no-repeat"></Box>
 
       </Container>
 
