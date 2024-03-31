@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Box, Button, FormControl, Input, VStack, useToast, Heading, useColorModeValue,
+  Box, Button, FormControl, Input, VStack, useToast, Heading, useColorModeValue, Center,
 } from '@chakra-ui/react';
 import bytebuilderlogo from '.././assets/bytebuilder-logo.png';
 import Navbar from '../components/Navbar';
@@ -22,6 +22,7 @@ const SignupPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
+    const email = formData.get('email');
     const password = formData.get('password');
     const confirmPassword = formData.get('confirmPassword');
 
@@ -48,9 +49,9 @@ const SignupPage = () => {
     }
 
     const data = {
-      username: formData.get('username'),
-      email: formData.get('email'),
-      password,
+      username: formData.get('username'), // Assuming your API requires this
+      email: email,
+      password: password,
       profile: {
         fullName: formData.get('fullName'),
         phoneNumber: formData.get('phoneNumber'),
@@ -58,27 +59,37 @@ const SignupPage = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:3000/api/signup', {
+      let response = await fetch('http://localhost:3000/api/signup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
-      const json = await response.json();
+      let json = await response.json();
       if (response.ok) {
-        toast({
-          title: 'Account created.',
-          description: json.message || "You've successfully signed up!",
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
+        // On successful signup attempt to sign in
+        response = await fetch('http://localhost:3000/api/signin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, password: password }),
         });
-        login(); 
-        navigate('/'); 
+
+        json = await response.json();
+        if (response.ok) {
+          login(json.token); 
+          toast({
+            title: 'Account created and logged in.',
+            description: "You've successfully signed up and are now logged in.",
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+          });
+          navigate('/'); 
+        } else {
+          throw new Error(json.error || 'Sign-in after signup failed.');
+        }
       } else {
-        throw new Error(json.error || 'Something went wrong');
+        throw new Error(json.error || 'Signup failed.');
       }
     } catch (error) {
       toast({
@@ -154,18 +165,20 @@ const SignupPage = () => {
           <FormControl id="phoneNumber" isRequired mb={6}>
             <Input name="phoneNumber" type="tel" placeholder="Phone Number" bg={inputBackground} color={textColor}/>
           </FormControl>
-          <Button
-            mt={4}
-            width="full"
-            type="submit"
-            bgGradient="radial(150.88% 889.9% at -47.06% 120.71%, #FF321B 10.19%, rgba(96, 103, 255, 0.98) 100%)"
-            _hover={{
-              bgGradient: "radial(150.88% 889.9% at -47.06% 120.71%, #FF321B 10.19%, rgba(96, 103, 255, 0.98) 90%)"
-            }}
-            color="white"
-          >
-            Sign Up
-          </Button>
+          <Center>
+            <Button
+              mt={4}
+              width={{base: "70%", md: "full"}}
+              type="submit"
+              bgGradient="radial(150.88% 889.9% at -47.06% 120.71%, #FF321B 10.19%, rgba(96, 103, 255, 0.98) 100%)"
+              _hover={{
+                bgGradient: "radial(150.88% 889.9% at -47.06% 120.71%, #FF321B 10.19%, rgba(96, 103, 255, 0.98) 90%)"
+              }}
+              color="white"
+            >
+              Sign Up
+            </Button>
+          </Center>
         </form>
       </VStack>
     </>

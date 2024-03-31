@@ -71,8 +71,10 @@ const Navbar = () => {
       ))}
 
       <Spacer />
-
-      <Image src="..\src\assets\bytebuilder-logo.png" alt="ByteBuilder Logo" boxSize="75px" />
+      
+      <RouterLink to={"/"}>
+        <Image src="..\src\assets\bytebuilder-logo.png" alt="ByteBuilder Logo" boxSize="75px" style={{ cursor: 'pointer' }} _hover={{ textDecoration: 'none' }}/>
+      </RouterLink>
 
       <Spacer />
 
@@ -88,7 +90,7 @@ const Navbar = () => {
       ))}
 
       {isLoggedIn && (
-        <Link mx={2} display={{ base: "none", md: "block" }} onClick={handleLogout} style={{ cursor: 'pointer' }} _hover={{ textDecoration: 'none', color: hoverColor }}>
+        <Link mx={100} display={{ base: "none", md: "block" }} onClick={handleLogout} style={{ cursor: 'pointer' }} _hover={{ textDecoration: 'none', color: hoverColor }}>
           Logout
         </Link>
       )}
