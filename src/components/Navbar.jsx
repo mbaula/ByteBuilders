@@ -12,24 +12,41 @@ import {
   DrawerBody,
   DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton
+  DrawerCloseButton,
+  useToast
 } from '@chakra-ui/react';
 import { HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { useAuth } from '../context/AuthContext';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); 
   const hoverColor = "#3fbeff";
+  const toast = useToast();
+  const navigate = useNavigate();
 
   const menuItemsLeft = ['Feed', 'Category'];
   if (isLoggedIn) {
     menuItemsLeft.push('Post');
   }
-  const menuItemsRight = isLoggedIn ? ['Profile', 'Logout'] : ['Sign Up', 'Log In'];
+  const menuItemsRight = isLoggedIn ? ['Profile'] : ['Sign Up', 'Log In'];
 
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
+
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged out",
+      description: "You have successfully logged out.",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+      position: "top", 
+    });
+    navigate('/');
+  };
 
   return (
     <Flex
@@ -70,7 +87,11 @@ const Navbar = () => {
         </Box>
       ))}
 
-      {isLoggedIn && <Box mx="4" visibility="hidden">Placeholder</Box>}
+      {isLoggedIn && (
+        <Link mx={2} display={{ base: "none", md: "block" }} onClick={handleLogout} style={{ cursor: 'pointer' }} _hover={{ textDecoration: 'none', color: hoverColor }}>
+          Logout
+        </Link>
+      )}
 
       <IconButton
         ml={3}
@@ -97,10 +118,15 @@ const Navbar = () => {
           <DrawerBody>
             <Flex direction="column" align="center">
               {menuItemsLeft.concat(menuItemsRight).map((item, index) => (
-                <Link key={index} py={2} href={`/${item.toLowerCase()}`} onClick={toggleDrawer}>
-                  {item}
-                </Link>
+                <RouterLink key={index} to={`/${item.replace(/\s+/g, '').toLowerCase()}`} onClick={toggleDrawer} style={{ padding: "1rem", textDecoration: "none" }}>
+                {item}
+                </RouterLink>
               ))}
+              {isLoggedIn && (
+                <Link onClick={handleLogout} style={{ padding: "1rem", textDecoration: "none", fontSize: "16px"}}> 
+                  Logout
+                </Link>
+              )}
             </Flex>
           </DrawerBody>
         </DrawerContent>
