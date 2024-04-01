@@ -6,6 +6,7 @@ import SignupPage from './pages/SignupPage';
 import HomePage from './pages/HomePage.jsx';
 import { AuthProvider } from './context/AuthContext';
 import LoginPage from './pages/LoginPage.jsx';
+import Feed from './pages/Feed.jsx';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage /> } />
+        <Route path="/feed" element={<Feed /> } />
       </Routes>
       </Router>
       </AuthProvider>
