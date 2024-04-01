@@ -6,6 +6,7 @@ import backgroundImage2 from '../assets/bytebuilder-logocopy.png';
 import profileDefault from '../assets/anonymousprofile.png';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
+/** This is the HomePage*/
 
 const bgByteBuilders = backgroundImage;
 const bgByteBuildersBlue = backgroundImage2;
@@ -97,8 +98,6 @@ const HomePage = () => {
 
       <Heading padding="80px" fontWeight="Bold" textAlign="center">Featured Posts</Heading>
       
-    
-
       <Box padding="0 150px">
       <Flex>
       <Container position="relative" p="5" overflow="hidden" sx={featureBubble1} bgGradient= "radial(150.88% 889.9% at -47.06% 120.71%, #00C9A7 10.19%, rgba(130, 88, 255, 0.98) 100%)">
