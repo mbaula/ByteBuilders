@@ -47,7 +47,7 @@ const LoginPage = () => {
           isClosable: true,
         });
 
-        navigate('/');
+        navigate('/feed');
       } else {
         throw new Error(json.error || 'Something went wrong');
       }

@@ -84,7 +84,7 @@ const SignupPage = () => {
             duration: 5000,
             isClosable: true,
           });
-          navigate('/'); 
+          navigate('/feed'); 
         } else {
           throw new Error(json.error || 'Sign-in after signup failed.');
         }
