@@ -18,6 +18,7 @@ import hljs from 'highlight.js';
 import 'react-quill/dist/quill.snow.css';
 import 'highlight.js/styles/github.css';
 import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 const modules = {
   toolbar: [
@@ -48,6 +49,7 @@ const PostPage = () => {
   const [body, setBody] = useState('');
   const toast = useToast();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
 
   const customSelectStyles = {
     control: styles => ({
@@ -166,7 +168,6 @@ const PostPage = () => {
         categories: [categoryId],
       };
 
-      console.log(blogData);
       const response = await fetch('http://localhost:3000/api/blogposts', {
         method: 'POST',
         headers: {
@@ -181,13 +182,8 @@ const PostPage = () => {
         throw new Error(errorData.message || 'Failed to post blog');
       }
 
-      toast({
-        title: 'Blog Posted',
-        description: 'Your blog has been successfully posted.',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
+      const newPost = await response.json();
+      navigate(`/blog/${newPost._id}`);
     } catch (error) {
       console.error("Error:", error);
       toast({
