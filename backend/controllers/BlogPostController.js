@@ -2,7 +2,8 @@ import BlogPost from '../models/BlogPost.js';
 
 export const createPost = async (req, res) => {
     try {
-        const { title, content, author, categories } = req.body;
+        const { title, content, categories } = req.body;
+        const author = req.user._id;
         const newPost = new BlogPost({ title, content, author, categories });
         const savedPost = await newPost.save();
         res.status(201).json(savedPost);

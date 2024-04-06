@@ -11,31 +11,32 @@ import {
   VStack,
   useColorModeValue
 } from '@chakra-ui/react';
-import Select, { components } from 'react-select';
-import ReactQuill, { Quill } from 'react-quill';
+import Select from 'react-select';
+import { components } from 'react-select';
+import ReactQuill from 'react-quill';
 import hljs from 'highlight.js';
 import 'react-quill/dist/quill.snow.css';
-import 'highlight.js/styles/github.css'; 
+import 'highlight.js/styles/github.css';
 import Navbar from '../components/Navbar';
-import { useAuth } from '../context/AuthContext';
 
 const modules = {
   toolbar: [
-    [{ 'header': [1, 2, false] }],
-    ['bold', 'italic', 'underline','strike', 'blockquote'],
-    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+    [{ header: [1, 2, false] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
     ['link', 'image', 'code-block'],
-    ['clean']
+    ['clean'],
   ],
   syntax: {
-    highlight: text => hljs.highlightAuto(text).value
+    highlight: text => hljs.highlightAuto(text).value,
   },
 };
+
 const formats = [
   'header',
   'bold', 'italic', 'underline', 'strike', 'blockquote',
   'list', 'bullet', 'indent',
-  'link', 'image', 'code-block'
+  'link', 'image', 'code-block',
 ];
 
 const PostPage = () => {
@@ -46,14 +47,14 @@ const PostPage = () => {
   const [newCategoryName, setNewCategoryName] = useState('');
   const [body, setBody] = useState('');
   const toast = useToast();
-  const { getUserIdFromToken } = useAuth();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const customSelectStyles = {
-    control: (styles) => ({
+    control: styles => ({
       ...styles,
       backgroundColor: useColorModeValue('white', 'gray.700'),
     }),
-    menu: (styles) => ({
+    menu: styles => ({
       ...styles,
       backgroundColor: useColorModeValue('white', 'gray.700'),
     }),
@@ -62,33 +63,11 @@ const PostPage = () => {
       backgroundColor: isFocused ? useColorModeValue('gray.100', 'gray.600') : isSelected ? useColorModeValue('gray.300', 'gray.500') : undefined,
       color: useColorModeValue('gray.700', 'gray.100'),
     }),
-  };
-
-  const handleCategoryChange = (selectedOption) => {
-    if (selectedOption.value === 'add_new') {
-      setShowNewCategoryInput(true);
-    } else {
-      setShowNewCategoryInput(false);
-      setSelectedCategory(selectedOption);
-    }
-  };
-
-  const handleAddCategory = () => {
-    if (newCategoryName && !categories.find(category => category.label.toLowerCase() === newCategoryName.toLowerCase())) {
-      const newCategory = { value: `new_${newCategoryName.toLowerCase()}`, label: newCategoryName };
-      setCategories(prevCategories => [...prevCategories, newCategory]);
-      setSelectedCategory(newCategory);
-      setNewCategoryName('');
-      setShowNewCategoryInput(false);
-    } else {
-      toast({
-        title: 'Error',
-        description: 'This category already exists or the name is empty.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
+    menuList: (provided) => ({
+      ...provided,
+      maxHeight: '132px', 
+    }),
+    menuPortal: base => ({ ...base, zIndex: 9999 }),
   };
 
   useEffect(() => {
@@ -99,7 +78,7 @@ const PostPage = () => {
           throw new Error('Failed to fetch categories');
         }
         const data = await response.json();
-        const formattedCategories = data.map(cat => ({ value: cat._id, label: cat.name }));
+        setCategories(data.map(cat => ({ value: cat._id, label: cat.name })));
       } catch (error) {
         toast({
           title: 'Error',
@@ -114,7 +93,129 @@ const PostPage = () => {
     fetchCategories();
   }, []);
 
-  const options = [...categories, { value: 'add_new', label: 'Add New Category' }];
+  const handleCategoryChange = selectedOption => {
+    setSelectedCategory(selectedOption);
+    setShowNewCategoryInput(selectedOption?.value === 'add_new');
+  };
+
+  const handleMenuOpen = () => {
+    setIsDropdownOpen(true);
+  };
+  
+  const handleMenuClose = () => {
+    setIsDropdownOpen(false);
+  };
+
+  const handleAddCategory = async () => {
+    if (!newCategoryName.trim()) {
+      toast({
+        title: 'Error',
+        description: 'Category name cannot be empty.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+    try {
+      const response = await fetch('http://localhost:3000/api/categories', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ name: newCategoryName }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create new category');
+      }
+      const newCategoryData = await response.json();
+      setCategories(prev => [...prev, { value: newCategoryData._id, label: newCategoryName }]);
+      setSelectedCategory({ value: newCategoryData._id, label: newCategoryName });
+      setShowNewCategoryInput(false);
+      setNewCategoryName('');
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: `Unable to add new category: ${error.message}`,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const postBlog = async () => {
+    if (!selectedCategory) {
+      toast({
+        title: 'Error',
+        description: 'Please select a category for the blog post.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+    const categoryId = selectedCategory.value;
+
+    try {
+      const blogData = {
+        title,
+        content: body,
+        categories: [categoryId],
+      };
+
+      console.log(blogData);
+      const response = await fetch('http://localhost:3000/api/blogposts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(blogData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to post blog');
+      }
+
+      toast({
+        title: 'Blog Posted',
+        description: 'Your blog has been successfully posted.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      toast({
+        title: 'Error',
+        description: `Unable to post blog: ${error.message}`,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const options = categories.concat({ value: 'add_new', label: 'Add New Category' });
+  const sortedOptions = [...options].sort((a, b) => a.label.localeCompare(b.label));
+
+  const CustomOption = (props) => {
+    if (props.data.value === 'add_new') {
+      return (
+        <components.Option {...props} className="custom-add-new-option">
+          <Box color="blue.500" fontWeight="bold">
+            {props.data.label}
+          </Box>
+        </components.Option>
+      );
+    }
+  
+    return <components.Option {...props} />;
+  };
 
   return (
     <>
@@ -123,7 +224,7 @@ const PostPage = () => {
         <Heading mb={4}>Share your tech insights here!</Heading>
         <FormControl isRequired mb={3}>
           <FormLabel>Topic</FormLabel>
-          <Input placeholder="Your topic title..." value={title} onChange={(e) => setTitle(e.target.value)} />
+          <Input placeholder="Your topic title..." value={title} onChange={e => setTitle(e.target.value)} />
         </FormControl>
         <FormControl mb={3}>
           <FormLabel>Category</FormLabel>
@@ -131,27 +232,33 @@ const PostPage = () => {
             isSearchable
             value={selectedCategory}
             onChange={handleCategoryChange}
-            options={options}
+            options={sortedOptions}
             styles={customSelectStyles}
+            menuPortalTarget={document.body}
+            onMenuOpen={handleMenuOpen}
+            onMenuClose={handleMenuClose}
+            components={{ Option: CustomOption }}
           />
           {showNewCategoryInput && (
             <VStack mt={4}>
-              <Input placeholder="New category name" value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} />
+              <Input placeholder="New category name" value={newCategoryName} onChange={e => setNewCategoryName(e.target.value)} />
               <Button onClick={handleAddCategory}>Add Category</Button>
             </VStack>
           )}
         </FormControl>
+        <Box mt={isDropdownOpen ? '10rem' : '0'}>
         <FormControl isRequired mb={3}>
           <FormLabel>Article Body</FormLabel>
-          <ReactQuill 
-            theme="snow" 
-            value={body} 
-            onChange={setBody} 
+          <ReactQuill
+            theme="snow"
+            value={body}
+            onChange={setBody}
             modules={modules}
             formats={formats}
           />
         </FormControl>
-        <Button colorScheme="blue" onClick={() => {}}>Post Blog</Button>
+        <Button colorScheme="blue" onClick={postBlog}>Post Blog</Button>
+        </Box>
       </Container>
     </>
   );

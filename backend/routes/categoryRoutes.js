@@ -1,11 +1,12 @@
 import express from 'express';
 import {createCategory, getAllCategories, getCategoryById, updateCategoryById, deleteCategoryById} from '../controllers/CategoryController.js';
+import authenticateToken from '../middleware/authenticateToken.js'
 
 const router = express.Router();
 
 router.get('/', getAllCategories);
 
-router.post('/', createCategory);
+router.post('/', authenticateToken, createCategory);
 
 router.get('/:id', getCategoryById);
 
