@@ -11,7 +11,7 @@ const Feed = () => {
     return (
       <>
         <Navbar />
-        <Heading padding= "50px" align="center">Feed</Heading>
+        <Heading padding= "50px" textAlign="center">Feed</Heading>
         <PostItem/>
         <PostItem/>
         <PostItem/>

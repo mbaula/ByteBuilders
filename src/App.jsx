@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage.jsx';
 import { AuthProvider } from './context/AuthContext';
 import LoginPage from './pages/LoginPage.jsx';
 import Feed from './pages/Feed.jsx';
+import PostPage from './pages/PostPage.jsx';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage /> } />
         <Route path="/feed" element={<Feed /> } />
+        <Route path='/post' element={<PostPage />} />
       </Routes>
       </Router>
       </AuthProvider>

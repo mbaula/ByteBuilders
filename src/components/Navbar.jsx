@@ -60,7 +60,7 @@ const Navbar = () => {
       mb={4}
     >
       {menuItemsLeft.map((item, index) => (
-        <Box key={index} mx={100} display={{ base: "none", md: "block" }} >
+        <Box key={index} mx={25} display={{ base: "none", md: "block" }} >
           <Link
             href={`/${item.toLowerCase()}`}
             _hover={{ textDecoration: 'none', color: hoverColor }}
@@ -79,7 +79,7 @@ const Navbar = () => {
       <Spacer />
 
       {menuItemsRight.map((item, index) => (
-        <Box key={index} mx={100} display={{ base: "none", md: "block" }}>
+        <Box key={index} mx={25} display={{ base: "none", md: "block" }}>
           <Link
             href={`/${item.replace(' ', '').toLowerCase()}`}
             _hover={{ textDecoration: 'none', color: hoverColor }}
@@ -90,7 +90,7 @@ const Navbar = () => {
       ))}
 
       {isLoggedIn && (
-        <Link mx={100} display={{ base: "none", md: "block" }} onClick={handleLogout} style={{ cursor: 'pointer' }} _hover={{ textDecoration: 'none', color: hoverColor }}>
+        <Link mx={25} display={{ base: "none", md: "block" }} onClick={handleLogout} style={{ cursor: 'pointer' }} _hover={{ textDecoration: 'none', color: hoverColor }}>
           Logout
         </Link>
       )}
