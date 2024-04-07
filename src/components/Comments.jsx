@@ -6,7 +6,47 @@ import {
 const Comments = ({ postId }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
-  const toast = useToast(); // Using toast for notifications
+  const toast = useToast(); 
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editingContent, setEditingContent] = useState('');
+
+  const handleStartEdit = (commentId, content) => {
+    setEditingCommentId(commentId);
+    setEditingContent(content);
+  };
+
+  const handleSubmitEdit = async (e, commentId) => {
+    e.preventDefault();
+    const userToken = localStorage.getItem('token');
+  
+    try {
+      const response = await fetch(`http://localhost:3000/api/comments/${commentId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({ content: editingContent }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update comment');
+      }
+  
+      const updatedComment = await response.json();
+      setComments(comments.map((comment) => (comment._id === commentId ? { ...comment, content: updatedComment.content } : comment)));
+      
+      setEditingCommentId(null);
+      setEditingContent('');
+    } catch (error) {
+      console.error('Failed to update comment:', error);
+    }
+  };  
+
+  const handleCancelEdit = () => {
+    setEditingCommentId(null);
+    setEditingContent('');
+  };
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -118,21 +158,33 @@ const Comments = ({ postId }) => {
         <Button type="submit" mt={4} colorScheme="blue" size="lg">Submit Comment</Button>
       </form>
       {comments.length > 0 && (
-        <Box mt={8}>
-          <Text fontWeight="bold" mb={2}>Comments</Text>
-          <Stack spacing={3}>
-            {comments.map(comment => (
+      <Box mt={8}>
+        <Text fontWeight="bold" mb={2}>Comments</Text>
+        <Stack spacing={3}>
+        {comments.map(comment => (
               <Box key={comment._id} p={5} shadow="md" borderWidth="1px">
                 <Flex direction={{ base: 'column', sm: 'row' }} justify="space-between" align="flex-start">
                   <HStack spacing={4}>
                     <Text fontWeight="bold">{comment.author ? comment.author.username : "Anonymous"}</Text>
+                    {comment.isEdited && <Text fontSize="sm" color="gray.600" ml={2}>(Edited)</Text>}
+                    {comment.isEditable && (
+                      <Button size="xs" onClick={() => handleStartEdit(comment._id, comment.content)}>Edit</Button>
+                    )}
                     {comment.isDeletable && (
                       <Button colorScheme="red" size="xs" onClick={() => handleDeleteComment(comment._id)}>Delete</Button>
                     )}
                   </HStack>
                   <Badge alignSelf={{ base: 'flex-start', sm: 'center' }}>{new Date(comment.commentDate).toLocaleDateString()}</Badge>
                 </Flex>
-                <Text mt={2}>{comment.content}</Text>
+                {editingCommentId === comment._id ? (
+                  <form onSubmit={(e) => handleSubmitEdit(e, comment._id)}>
+                    <Textarea value={editingContent} onChange={(e) => setEditingContent(e.target.value)} size="sm" />
+                    <Button type="submit" colorScheme="blue" size="xs">Save</Button>
+                    <Button onClick={handleCancelEdit} size="xs" ml={2}>Cancel</Button>
+                  </form>
+                ) : (
+                  <Text mt={2}>{comment.content}</Text>
+                )}
               </Box>
             ))}
           </Stack>

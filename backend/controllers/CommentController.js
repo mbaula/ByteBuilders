@@ -38,6 +38,7 @@ export const getCommentsByPostId = async (req, res) => {
     const commentsWithDeletableFlag = comments.map(comment => ({
       ...comment.toObject(),
       isDeletable: comment.author._id.toString() === req.user._id.toString(),
+      isEditable: comment.author._id.toString() === req.user._id.toString(),
     }));
     res.status(200).json(commentsWithDeletableFlag);
   } catch (error) {
@@ -47,15 +48,21 @@ export const getCommentsByPostId = async (req, res) => {
 
 export const updateCommentById = async (req, res) => {
   try {
-    const updatedComment = await Comment.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const contentUpdate = { content: req.body.content };
+
+    const updatedComment = await Comment.findByIdAndUpdate(req.params.id, { ...contentUpdate, isEdited: true }, { new: true }).populate('author', 'username');
+
     if (!updatedComment) {
       return res.status(404).json({ message: "Comment not found" });
     }
-    res.status(200).json(updatedComment);
+
+    const responseComment = {
+      ...updatedComment.toObject(),
+      isEditable: updatedComment.author._id.toString() === req.user._id.toString(),
+      isDeletable: updatedComment.author._id.toString() === req.user._id.toString(),
+    };
+
+    res.status(200).json(responseComment);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
