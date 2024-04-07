@@ -16,6 +16,7 @@ import rehypeRaw from 'rehype-raw';
 import gfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import Comments from '../components/Comments';
 
 const BlogPostDetail = () => {
   const { postId } = useParams();
@@ -173,6 +174,7 @@ const BlogPostDetail = () => {
             components={markdownComponents}
           />
         </VStack>
+        <Comments postId={postId} />
       </Container>
     </>
   );
