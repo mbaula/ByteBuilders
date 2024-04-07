@@ -15,6 +15,8 @@ export const createPost = async (req, res) => {
 export const getPostById = async (req, res) => {
     try {
         const post = await BlogPost.findById(req.params.id)
+                            .populate('comments') 
+                            .exec();
         if (!post) {
             return res.status(404).json({ message: 'Blog post not found' });
         }

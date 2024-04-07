@@ -1,11 +1,19 @@
 import Comment from "../models/Comment.js";
+import BlogPost from "../models/BlogPost.js";
 
 export const createComment = async (req, res) => {
   try {
-    const { content, post, author } = req.body;
+    const { content, post } = req.body;
+    const author = req.user._id;
     const newComment = new Comment({ content, post, author });
+
     const savedComment = await newComment.save();
-    res.status(201).json(savedComment);
+
+    await BlogPost.findByIdAndUpdate(post, { $push: { comments: savedComment._id } });
+
+    const populatedComment = await Comment.findById(savedComment._id).populate('author', 'username');
+
+    res.status(201).json(populatedComment);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -20,6 +28,16 @@ export const getCommentById = async (req, res) => {
     res.status(200).json(comment);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+export const getCommentsByPostId = async (req, res) => {
+  try {
+      const postId = req.params.postId;
+      const comments = await Comment.find({ post: postId }).populate('author', 'username');
+      res.status(200).json(comments);
+  } catch (error) {
+      res.status(400).json({ message: error.message });
   }
 };
 

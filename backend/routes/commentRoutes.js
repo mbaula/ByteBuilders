@@ -3,17 +3,21 @@ import {
   createComment,
   deleteCommentById,
   getCommentById,
-  updateCommentById,
+  getCommentsByPostId,
+  updateCommentById
 } from "../controllers/CommentController.js";
+import authenticateToken from "../middleware/authenticateToken.js";
 
 const router = express.Router();
 
-router.post("/", createComment);
+router.post("/", authenticateToken, createComment);
 
-router.get("/:id", getCommentById);
+router.get("/byPost/:postId", authenticateToken, getCommentsByPostId);
 
-router.put("/:id", updateCommentById);
+router.get("/:id", authenticateToken, getCommentById);
 
-router.delete("/:id", deleteCommentById);
+router.put("/:id", authenticateToken, updateCommentById);
+
+router.delete("/:id", authenticateToken, deleteCommentById);
 
 export default router;
