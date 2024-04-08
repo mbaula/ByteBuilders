@@ -32,6 +32,21 @@ export const getPostById = async (req, res) => {
     }
 };
 
+export const getPostsByCategoryId = async (req, res) => {
+    try {
+      const { categoryId } = req.params; 
+  
+      const posts = await BlogPost.find({ categories: categoryId })
+        .populate('author', 'username') 
+        .populate('categories', 'name') 
+        .exec();
+  
+      res.status(200).json(posts);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  };
+
 export const updatePostById = async (req, res) => {
     try {
         const update = { ...req.body, isEdited: true };

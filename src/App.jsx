@@ -10,6 +10,7 @@ import Feed from './pages/Feed.jsx';
 import PostPage from './pages/PostPage.jsx';
 import BlogPostDetail from './pages/BlogPostDetail.jsx';
 import EditPostPage from './pages/EditPostPage.jsx';
+import CategoriesPage from './pages/CategoriesPage.jsx';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path='/post' element={<PostPage />} />
         <Route path="/blog/:postId" element={<BlogPostDetail />} />
         <Route path="/editPost/:postId" element={<EditPostPage />} />
+        <Route path="/category" element={<CategoriesPage />} />
       </Routes>
       </Router>
       </AuthProvider>
