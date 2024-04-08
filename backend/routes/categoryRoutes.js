@@ -1,5 +1,5 @@
 import express from 'express';
-import {createCategory, getAllCategories, getCategoryById, updateCategoryById, deleteCategoryById} from '../controllers/CategoryController.js';
+import {createCategory, getAllCategories, getCategoryById, updateCategoryById, deleteCategoryById, getCategoriesByName} from '../controllers/CategoryController.js';
 import authenticateToken from '../middleware/authenticateToken.js'
 
 const router = express.Router();
