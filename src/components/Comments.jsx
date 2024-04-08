@@ -102,9 +102,9 @@ const Comments = ({ postId }) => {
         body: JSON.stringify({ content: newComment, post: postId }),
       });
       if (!response.ok) throw new Error('Failed to post comment');
-      const newCommentData = await response.json();
-      setComments(prevComments => [...prevComments, { ...newCommentData, isDeletable: true }]);
-      setNewComment('');
+        const newCommentData = await response.json();
+        setComments(prevComments => [{ ...newCommentData, isDeletable: true, isEditable: true }, ...prevComments]);
+        setNewComment('');
     } catch (error) {
       console.error('Failed to post comment:', error);
       toast({
