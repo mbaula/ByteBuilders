@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Box,
   Heading,
@@ -7,6 +7,7 @@ import {
   VStack,
   Container,
   Button,
+  Divider,
   useColorMode,
   Link as ChakraLink
 } from '@chakra-ui/react';
@@ -25,6 +26,7 @@ const BlogPostDetail = () => {
   const [categoryNames, setCategoryNames] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
   const { colorMode } = useColorMode();
   const codeStyle = colorMode === 'dark' ? vscDarkPlus : vs;
@@ -93,6 +95,10 @@ const BlogPostDetail = () => {
       setIsLoading(false);
     }
   }, [postId]);
+
+  const handleEditPost = () => {
+    navigate(`/editPost/${postId}`);
+  };
 
   if (isLoading) {
     return (
@@ -163,10 +169,17 @@ const BlogPostDetail = () => {
       <Container maxW={{ base: "90%", md: "container.md" }} marginTop="5">
         <VStack spacing={5} align="start">
           <Heading size="2xl">{post?.title}</Heading>
+          {post?.isEditable && (
+            <Button size="xs" onClick={handleEditPost}>Edit</Button>
+          )}
           <Box>
             <Text fontSize={{ base: "md", md: "lg" }} color="gray.500">By {authorName}</Text>
-            <Text fontSize={{ base: "sm", md: "md" }} color="gray.500">{categoryNames.join(', ')} - {new Date(post?.publishDate).toLocaleDateString()}</Text>
+            <Text fontSize={{ base: "sm", md: "md" }} color="gray.500">
+              {categoryNames.join(', ')} - {new Date(post?.publishDate).toLocaleDateString()}
+              {post?.isEdited && <span style={{ fontStyle: 'italic', marginLeft: '4px' }}>(Edited)</span>}
+            </Text>
           </Box>
+          <Divider my={2} />
           <ReactMarkdown
             children={post?.content}
             rehypePlugins={[rehypeRaw]}

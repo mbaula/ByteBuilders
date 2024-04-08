@@ -20,7 +20,13 @@ export const getPostById = async (req, res) => {
         if (!post) {
             return res.status(404).json({ message: 'Blog post not found' });
         }
-        res.status(200).json(post);
+
+        let postObject = post.toObject();
+
+        postObject.isEditable = req.user && post.author._id.toString() === req.user._id.toString();
+        postObject.isDeletable = postObject.isEditable; 
+
+        res.status(200).json(postObject);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -28,7 +34,8 @@ export const getPostById = async (req, res) => {
 
 export const updatePostById = async (req, res) => {
     try {
-        const updatedPost = await BlogPost.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        const update = { ...req.body, isEdited: true };
+        const updatedPost = await BlogPost.findByIdAndUpdate(req.params.id, update, { new: true });
         if (!updatedPost) {
             return res.status(404).json({ message: 'Blog post not found' });
         }

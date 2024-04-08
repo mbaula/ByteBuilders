@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import Feed from './pages/Feed.jsx';
 import PostPage from './pages/PostPage.jsx';
 import BlogPostDetail from './pages/BlogPostDetail.jsx';
+import EditPostPage from './pages/EditPostPage.jsx';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/feed" element={<Feed /> } />
         <Route path='/post' element={<PostPage />} />
         <Route path="/blog/:postId" element={<BlogPostDetail />} />
+        <Route path="/editPost/:postId" element={<EditPostPage />} />
       </Routes>
       </Router>
       </AuthProvider>

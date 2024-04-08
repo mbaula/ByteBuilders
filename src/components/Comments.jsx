@@ -155,7 +155,7 @@ const Comments = ({ postId }) => {
           <FormLabel htmlFor="comment" fontSize="lg">Your Comment</FormLabel>
           <Textarea id="comment" value={newComment} onChange={e => setNewComment(e.target.value)} placeholder="Write your comment here..." size="lg" />
         </FormControl>
-        <Button type="submit" mt={4} colorScheme="blue" size="lg">Submit Comment</Button>
+        <Button type="submit" mt={4} colorScheme="blue" size="md">Submit Comment</Button>
       </form>
       {comments.length > 0 && (
       <Box mt={8}>
