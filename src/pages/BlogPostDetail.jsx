@@ -8,6 +8,7 @@ import {
   Container,
   Button,
   Divider,
+  Flex,
   useColorMode,
   Link as ChakraLink
 } from '@chakra-ui/react';
@@ -18,6 +19,7 @@ import gfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Comments from '../components/Comments';
+import { useToast } from '@chakra-ui/react';
 
 const BlogPostDetail = () => {
   const { postId } = useParams();
@@ -26,6 +28,7 @@ const BlogPostDetail = () => {
   const [categoryNames, setCategoryNames] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const toast = useToast();
   const navigate = useNavigate();
 
   const { colorMode } = useColorMode();
@@ -100,6 +103,46 @@ const BlogPostDetail = () => {
     navigate(`/editPost/${postId}`);
   };
 
+  const handleDeletePost = async () => {
+    const titleConfirmation = window.prompt("Please enter the title of the post to confirm deletion:");
+    if (titleConfirmation !== post?.title) {
+      alert("The title does not match. Deletion cancelled.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/blogposts/${postId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete post');
+      }
+
+      toast({
+        title: 'Post deleted.',
+        description: "The article has been successfully deleted.",
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+
+      navigate('/'); 
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      toast({
+        title: 'Error deleting post.',
+        description: error.toString(),
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
   if (isLoading) {
     return (
       <>
@@ -169,9 +212,14 @@ const BlogPostDetail = () => {
       <Container maxW={{ base: "90%", md: "container.md" }} marginTop="5">
         <VStack spacing={5} align="start">
           <Heading size="2xl">{post?.title}</Heading>
-          {post?.isEditable && (
-            <Button size="xs" onClick={handleEditPost}>Edit</Button>
-          )}
+          <Flex>
+            {post?.isEditable && (
+              <Button size="xs" onClick={handleEditPost} mr={2}>Edit</Button> // Added marginRight for spacing
+            )}
+            {post?.isDeletable && (
+              <Button size="xs" colorScheme="red" onClick={handleDeletePost}>Delete Post</Button>
+            )}
+          </Flex>
           <Box>
             <Text fontSize={{ base: "md", md: "lg" }} color="gray.500">By {authorName}</Text>
             <Text fontSize={{ base: "sm", md: "md" }} color="gray.500">
