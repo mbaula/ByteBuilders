@@ -55,3 +55,23 @@ export const deleteCategoryById = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+export const getCategoriesByName = async (req, res) => {
+  try {
+    const { name } = req.query;
+
+    // Validate the query parameter
+    if (!name) {
+      return res
+        .status(400)
+        .json({ message: "Name parameter is required for filtering" });
+    }
+
+    const categories = await Category.find({
+      name: { $regex: new RegExp(name, "i") },
+    });
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};

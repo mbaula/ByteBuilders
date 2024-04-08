@@ -14,4 +14,6 @@ router.put('/:id', updateCategoryById);
 
 router.delete('/:id', deleteCategoryById);
 
+router.get("/filter", getCategoriesByName);
+
 export default router;
