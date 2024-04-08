@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Box, Heading, Text, Link as ChakraLink, useToast } from '@chakra-ui/react';
 import Select from 'react-select';
 import Navbar from '../components/Navbar';
+import BlogPostCard from '../components/BlogPostCard';
 
 const CategoriesPage = () => {
   const [categories, setCategories] = useState([]);
@@ -62,7 +63,8 @@ const CategoriesPage = () => {
       });
   
       if (!response.ok) throw new Error('Failed to fetch blog posts for category');
-      const posts = await response.json();
+      let posts = await response.json();
+      posts = posts.sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate));
       setBlogPosts(posts);
     } catch (error) {
       toast({
@@ -103,13 +105,9 @@ const CategoriesPage = () => {
           />
         </Box>
         <Box>
-          {blogPosts.map(post => (
-            <Box key={post._id} p={5} shadow="md" borderWidth="1px" mb={4}>
-              <Heading fontSize="xl">{post.title}</Heading>
-              <Text mt={2}>{post.content.substring(0, 200)}...</Text>
-              <ChakraLink href={`/blog/${post._id}`} color="teal.500">Read more</ChakraLink>
-            </Box>
-          ))}
+            {blogPosts.map(post => (
+                <BlogPostCard key={post._id} post={post} />
+            ))}
         </Box>
       </Container>
     </>

@@ -172,14 +172,21 @@ const BlogPostDetail = () => {
   const markdownComponents = {
     h1: ({node, ...props}) => <Heading as="h1" size="xl" {...props} />,
     h2: ({node, ...props}) => <Heading as="h2" size="lg" {...props} />,
-    code({ node, inline, className, children, ...props }) {
-      if (inline) {
-        return (
-          <Text as="span" fontFamily="mono" {...props}>
-            {children}
-          </Text>
-        );
-      }
+    code({node, inline, className, children, ...props}) {
+      const match = /language-(\w+)/.exec(className || '');
+      return !inline && match ? (
+        <SyntaxHighlighter
+          style={codeStyle}
+          language={match[1]} 
+          PreTag="div"
+          children={String(children).replace(/\n$/, '')}
+          {...props}
+        />
+      ) : (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      );
     },
     blockquote: ({ node, ...props }) => (
       <Box as="blockquote" px={4} py={2} bg={colorMode === 'dark' ? 'gray.700' : 'gray.100'} borderLeft="5px solid" borderColor={colorMode === 'dark' ? 'gray.600' : 'gray.300'} {...props} />
@@ -214,7 +221,7 @@ const BlogPostDetail = () => {
           <Heading size="2xl">{post?.title}</Heading>
           <Flex>
             {post?.isEditable && (
-              <Button size="xs" onClick={handleEditPost} mr={2}>Edit</Button> // Added marginRight for spacing
+              <Button size="xs" onClick={handleEditPost} mr={2}>Edit</Button> 
             )}
             {post?.isDeletable && (
               <Button size="xs" colorScheme="red" onClick={handleDeletePost}>Delete Post</Button>
