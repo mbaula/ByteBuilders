@@ -1,22 +1,34 @@
 import mongoose from 'mongoose';
+import crypto from 'crypto';
 
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
         trim: true,
-        required: 'Username is required'
+        required: 'Username is required',
+        unique: true
     },
     email: {
         type: String,
         trim: true,
         required: 'Email is required',
+        match: [/.+\@.+\..+/, 'Please fill a valid email address'],
         unique: true
     },
     passwordHash: {
         type: String,
-        required: 'Password hash is required'
+        required: 'Password is required'
     },
+    salt: String,
     profile: {
+        fullName: {
+            type: String,
+            trim: true
+        },
+        phoneNumber: {
+            type: String,
+            trim: true
+        },
         bio: {
             type: String,
             trim: true
@@ -35,5 +47,36 @@ const userSchema = new mongoose.Schema({
         default: Date.now
     },
 });
+
+userSchema
+    .virtual('password')
+    .set(function(password) {
+        this._password = password;
+        this.salt = this.makeSalt();
+        this.passwordHash = this.encryptPassword(password);
+    })
+    .get(function() {
+        return this._password;
+    });
+
+userSchema.methods = {
+    authenticate: function(plainText) {
+        return this.encryptPassword(plainText) === this.passwordHash;
+    },
+    encryptPassword: function(password) {
+        if (!password) return '';
+        try {
+        return crypto
+            .createHmac('sha256', this.salt)
+            .update(password)
+            .digest('hex');
+        } catch (err) {
+        return '';
+        }
+    },
+    makeSalt: function() {
+        return Math.round(new Date().valueOf() * Math.random()) + '';
+    },
+};
 
 export default mongoose.model('User', userSchema);

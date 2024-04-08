@@ -27,6 +27,10 @@ const commentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    isEdited: {
+        type: Boolean,
+        default: false
+    },
 });
 
 export default mongoose.model('Comment', commentSchema);

@@ -9,10 +9,11 @@ beforeAll(async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
+    await mongoose.connection.db.collection('users').createIndexes([{ key: { email: 1 }, unique: true }]);
 });
 
 afterAll(async () => {
-    await User.deleteMany({ email: /@test.com$/ });
+    await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
 });
 
@@ -69,13 +70,9 @@ describe('User model', () => {
 
         const user1 = await new User(userData).save();
 
-        const userData2 = {
-            username: 'testUserUnique1',
-            email: email,
-            passwordHash: 'password123',
-        };
+        const userData2 = { ...userData, username: 'testUserUnique2' };
 
-        await expect(new User(userData2).save()).rejects.toThrow();
+        await expect(new User(userData2).save()).rejects.toThrow(/duplicate key error/i);
 
         await User.deleteMany({ email: email });
     });
