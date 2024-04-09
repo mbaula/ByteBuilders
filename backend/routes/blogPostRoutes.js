@@ -1,11 +1,17 @@
 import express from 'express';
-import { createPost, getPostById, updatePostById, deletePostById } from '../controllers/BlogPostController.js';
+import { createPost, getPostById, updatePostById, deletePostById, getPosts } from '../controllers/BlogPostController.js';
+
+
 
 const router = express.Router();
 
-router.post('/', createPost);
+router.post('/create', createPost);
 
 router.get('/:id', getPostById);
+
+router.get('/', (req, res) =>{
+    getPosts(req,res);
+});
 
 router.put('/:id', updatePostById);
 

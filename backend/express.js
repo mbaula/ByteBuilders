@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import bodyParser from 'body-parser';
+import bodyParser from 'body-parser'; 
 
 import userRoutes from './routes/userRoutes.js';
 import blogPostRoutes from './routes/blogPostRoutes.js';

@@ -33,6 +33,14 @@ const Navbar = () => {
   }
   const menuItemsRight = isLoggedIn ? ['Profile'] : ['Sign Up', 'Log In'];
 
+const handleLogoClick = () => {
+  if(isLoggedIn){
+    navigate('/Feed');
+  }else{
+    navigate('/');
+  }
+}
+
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
 
   const handleLogout = () => {
@@ -72,9 +80,9 @@ const Navbar = () => {
 
       <Spacer />
       
-      <RouterLink to={"/"}>
-        <Image src="..\src\assets\bytebuilder-logo.png" alt="ByteBuilder Logo" width="100%" boxSize="75px" style={{ cursor: 'pointer' }} _hover={{ textDecoration: 'none' }}/>
-      </RouterLink>
+      <Box onClick={handleLogoClick} style={{cursor: 'pointer'}}>
+        <Image src="..\src\assets\bytebuilder-logo.png" alt="ByteBuilder Logo" boxSize="75px" style={{ cursor: 'pointer' }} _hover={{ textDecoration: 'none' }}/>
+      </Box>
 
       <Spacer />
 
