@@ -71,3 +71,16 @@ export const deletePostById = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+export const getPosts = async (req, res) => {
+    try {
+      const posts = await BlogPost.find().populate('author','username')
+                                            .populate('categories','name');
+      const summary = posts.map(post => ({...post.toObject(),
+      content: post.content.substring(0, 300) + '...'
+    }));
+      res.json(summary);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
