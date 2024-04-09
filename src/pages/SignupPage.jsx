@@ -57,9 +57,10 @@ const SignupPage = () => {
         phoneNumber: formData.get('phoneNumber'),
       },
     };
+    const apiBaseUrl = import.meta.env.VITE_API_URL;
 
     try {
-      let response = await fetch('http://localhost:3000/api/signup', {
+      let response = await fetch(`${apiBaseUrl}/api/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -68,7 +69,7 @@ const SignupPage = () => {
       let json = await response.json();
       if (response.ok) {
         // On successful signup attempt to sign in
-        response = await fetch('http://localhost:3000/api/signin', {
+        response = await fetch(`${apiBaseUrl}/api/signin`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: email, password: password }),

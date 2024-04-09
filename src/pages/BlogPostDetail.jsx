@@ -34,13 +34,15 @@ const BlogPostDetail = () => {
   const { colorMode } = useColorMode();
   const codeStyle = colorMode === 'dark' ? vscDarkPlus : vs;
 
+  const apiBaseUrl = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsAuthenticated(!!token);
 
     const fetchAuthorName = async (authorId) => {
       try {
-        const authorResponse = await fetch(`http://localhost:3000/api/users/${authorId}`, {
+        const authorResponse = await fetch(`${apiBaseUrl}/api/users/${authorId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -56,7 +58,7 @@ const BlogPostDetail = () => {
     const fetchCategoryNames = async (categoryIds) => {
       const names = await Promise.all(categoryIds.map(async (categoryId) => {
         try {
-          const categoryResponse = await fetch(`http://localhost:3000/api/categories/${categoryId}`, {
+          const categoryResponse = await fetch(`${apiBaseUrl}/api/categories/${categoryId}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -73,7 +75,7 @@ const BlogPostDetail = () => {
 
     const fetchPost = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/blogposts/${postId}`, {
+        const response = await fetch(`${apiBaseUrl}/api/blogposts/${postId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -111,7 +113,7 @@ const BlogPostDetail = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/api/blogposts/${postId}`, {
+      const response = await fetch(`${apiBaseUrl}/api/blogposts/${postId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,

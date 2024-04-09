@@ -9,6 +9,7 @@ const CategoriesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [blogPosts, setBlogPosts] = useState([]);
   const toast = useToast();
+  const apiBaseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -19,7 +20,7 @@ const CategoriesPage = () => {
             throw new Error('Authentication token not found');
           }
       
-          const response = await fetch('http://localhost:3000/api/categories', {
+          const response = await fetch(`${apiBaseUrl}/api/categories`, {
             headers: {
               'Authorization': `Bearer ${token}`,
             },
@@ -56,7 +57,7 @@ const CategoriesPage = () => {
         return;
       }
       
-      const response = await fetch(`http://localhost:3000/api/blogposts/category/${selectedOption.value}`, {
+      const response = await fetch(`${apiBaseUrl}/api/blogposts/category/${selectedOption.value}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

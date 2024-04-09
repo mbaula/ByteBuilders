@@ -38,11 +38,12 @@ const EditPostPage = () => {
   const [body, setBody] = useState('');
   const toast = useToast();
   const navigate = useNavigate();
+  const apiBaseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/categories', {
+        const response = await fetch(`${apiBaseUrl}/api/categories`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -63,7 +64,7 @@ const EditPostPage = () => {
 
     const fetchPostData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/blogposts/${postId}`, {
+        const response = await fetch(`${apiBaseUrl}/api/blogposts/${postId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -113,7 +114,7 @@ const EditPostPage = () => {
         categories: [categoryId],
       };
 
-      const response = await fetch(`http://localhost:3000/api/blogposts/${postId}`, {
+      const response = await fetch(`${apiBaseUrl}/api/blogposts/${postId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

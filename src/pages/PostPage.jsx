@@ -50,6 +50,7 @@ const PostPage = () => {
   const toast = useToast();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const apiBaseUrl = import.meta.env.VITE_API_URL;
 
   const customSelectStyles = {
     control: styles => ({
@@ -75,7 +76,7 @@ const PostPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/categories');
+        const response = await fetch(`${apiBaseUrl}/api/categories`);
         if (!response.ok) {
           throw new Error('Failed to fetch categories');
         }
@@ -120,7 +121,7 @@ const PostPage = () => {
       return;
     }
     try {
-      const response = await fetch('http://localhost:3000/api/categories', {
+      const response = await fetch(`${apiBaseUrl}/api/categories`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -168,7 +169,7 @@ const PostPage = () => {
         categories: [categoryId],
       };
 
-      const response = await fetch('http://localhost:3000/api/blogposts', {
+      const response = await fetch(`${apiBaseUrl}/api/blogposts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

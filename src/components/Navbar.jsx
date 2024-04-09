@@ -18,6 +18,7 @@ import {
 import { HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { useAuth } from '../context/AuthContext';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import bytebuilderlogo from '../assets/bytebuilder-logo.png';
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -81,7 +82,7 @@ const handleLogoClick = () => {
       <Spacer />
       
       <Box onClick={handleLogoClick} style={{cursor: 'pointer'}}>
-        <Image src="..\src\assets\bytebuilder-logo.png" alt="ByteBuilder Logo" boxSize="75px" style={{ cursor: 'pointer' }} _hover={{ textDecoration: 'none' }}/>
+        <Image src={bytebuilderlogo} alt="ByteBuilder Logo" boxSize="75px" style={{ cursor: 'pointer' }} _hover={{ textDecoration: 'none' }}/>
       </Box>
 
       <Spacer />

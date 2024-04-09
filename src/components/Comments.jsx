@@ -15,12 +15,14 @@ const Comments = ({ postId }) => {
     setEditingContent(content);
   };
 
+  const apiBaseUrl = import.meta.env.VITE_API_URL;
+
   const handleSubmitEdit = async (e, commentId) => {
     e.preventDefault();
     const userToken = localStorage.getItem('token');
   
     try {
-      const response = await fetch(`http://localhost:3000/api/comments/${commentId}`, {
+      const response = await fetch(`${apiBaseUrl}/api/comments/${commentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +64,7 @@ const Comments = ({ postId }) => {
         return;
       }
       try {
-        const response = await fetch(`http://localhost:3000/api/comments/byPost/${postId}`, {
+        const response = await fetch(`${apiBaseUrl}/api/comments/byPost/${postId}`, {
           headers: { 'Authorization': `Bearer ${userToken}` },
         });
         if (!response.ok) throw new Error('Failed to fetch comments');
@@ -96,7 +98,7 @@ const Comments = ({ postId }) => {
       return;
     }
     try {
-      const response = await fetch('http://localhost:3000/api/comments', {
+      const response = await fetch(`${apiBaseUrl}/api/comments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userToken}` },
         body: JSON.stringify({ content: newComment, post: postId }),
@@ -128,7 +130,7 @@ const Comments = ({ postId }) => {
     if (!isConfirmed) return;
     
     try {
-      const response = await fetch(`http://localhost:3000/api/comments/${commentId}`, {
+      const response = await fetch(`${apiBaseUrl}/api/comments/${commentId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${userToken}` },
       });

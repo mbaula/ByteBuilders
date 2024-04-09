@@ -22,10 +22,11 @@ const LoginPage = () => {
     const formData = new FormData(event.target);
     const email = formData.get('email');
     const password = formData.get('password');
+    const apiBaseUrl = import.meta.env.VITE_API_URL;
 
     const data = { email, password };
     try {
-      const response = await fetch('http://localhost:3000/api/signin', {
+      const response = await fetch(`${apiBaseUrl}/api/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

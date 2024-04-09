@@ -7,11 +7,12 @@ const myProfileDefault = profileDefault;
 
 const UserProfile = () => {
     const [user, setUser] = useState(null);
+    const apiBaseUrl = import.meta.env.VITE_API_URL;
     useEffect(() => {
       const fetchUserData = async () => {
         const token = localStorage.getItem('token'); 
         try {
-          const response = await fetch('http://localhost:3000/api/users/current_user', { 
+          const response = await fetch(`${apiBaseUrl}/api/users/current_user`, { 
             headers: {
               'Authorization': `Bearer ${token}`
             }
