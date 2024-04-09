@@ -11,6 +11,7 @@ import PostPage from './pages/PostPage.jsx';
 import BlogPostDetail from './pages/BlogPostDetail.jsx';
 import EditPostPage from './pages/EditPostPage.jsx';
 import CategoriesPage from './pages/CategoriesPage.jsx';
+import ProfilePage from './pages/ProfilePage.jsx';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage /> } />
+        <Route path="/profile" element={<ProfilePage /> } />
         <Route path="/feed" element={<Feed /> } />
         <Route path='/post' element={<PostPage />} />
         <Route path="/blog/:postId" element={<BlogPostDetail />} />

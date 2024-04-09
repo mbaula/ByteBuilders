@@ -31,7 +31,7 @@ const Navbar = () => {
   if (isLoggedIn) {
     menuItemsLeft.push('Post');
   }
-  const menuItemsRight = isLoggedIn ? ['Profile'] : ['Sign Up', 'Log In'];
+  const menuItemsRight = isLoggedIn ? ['Profile'] : ['Profile', 'Sign Up', 'Log In'];
 
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
 
