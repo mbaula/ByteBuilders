@@ -24,7 +24,6 @@ const LoginPage = () => {
     const password = formData.get('password');
 
     const data = { email, password };
-
     try {
       const response = await fetch('http://localhost:3000/api/signin', {
         method: 'POST',
@@ -47,7 +46,11 @@ const LoginPage = () => {
           isClosable: true,
         });
 
+<<<<<<< HEAD
         navigate('/feed');
+=======
+        navigate('/Feed');
+>>>>>>> fac035a (Routing, and Feed Fix)
       } else {
         throw new Error(json.error || 'Something went wrong');
       }
