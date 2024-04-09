@@ -5,7 +5,13 @@ import profileDefault from '../assets/anonymousprofile.png';
 
 const myProfileDefault = profileDefault;
 
-const PostItem = () => {
+const PostItem = ({title, content, username, categories, publishDate}) => {
+    const categoryList = categories.map(cat => cat.name).join(', ');
+    const dateString = publishDate;
+    const firstTenChars = dateString.slice(0, 10);
+
+    const content2 = content.replace(/<[^>]+>/g, '');
+    
 
     return (
       <>
@@ -14,11 +20,11 @@ const PostItem = () => {
         <CardHeader align="left">
             <Flex spacing='4'>
             <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                <Avatar name='Segun Adebayo' src={myProfileDefault} />
+                <Avatar src={myProfileDefault} />
                 <Box>
-                <Heading alignItems="flex-start" size='md'>Nnamdi Aduba</Heading>
-                <Text>Artificial Intelligence</Text>
-                <Text>20/01/2024</Text>
+                <Heading alignItems="flex-start" size='md'>{username}</Heading>
+                <Text>{categoryList}</Text>
+                <Text>{firstTenChars}</Text>
                 </Box>
             </Flex>
             <IconButton
@@ -29,13 +35,11 @@ const PostItem = () => {
             </Flex>
          </CardHeader>
             <CardBody>
-            <Heading align="left" fontSize="50px">Emerging Horizons: The Top Technology Trends Shaping 2024</Heading>
-                <Text padding="20px 0px 0px 0px" align="left" fontSize="30px">The landscape of technology in 2024 is marked by a variety of groundbreaking innovations 
-                set to reshape various facets of our lives. These developments stretch across different sectors, from artificial intelligence AI 
-                and solar energy to healthcare and digital security, demonstrating the broad impact of technological advancements.</Text>
+            <Heading align="left" fontSize="50px">{title}</Heading>
+                <Text padding="20px 0px 0px 0px" align="left" fontSize="30px">{content2}</Text>
             </CardBody>
-            <CardFooter justify='space-between' flexWrap='wrap' >
-                <Box padding="7px 0 0 0 " fontWeight="Bold" fontSize="20px">4 Comments</Box>
+            <CardFooter justify='right' flexWrap='wrap' >
+                
                 <Button size="lg" variant="outline">Read More</Button>
             </CardFooter>
         </Card>
