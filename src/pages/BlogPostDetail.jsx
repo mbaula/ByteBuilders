@@ -202,7 +202,6 @@ const BlogPostDetail = () => {
         <Box overflowX="auto" maxWidth="100%">
           <SyntaxHighlighter
             style={codeStyle}
-            language="javascript"
             PreTag="div"
             {...props}
           >

@@ -5,6 +5,7 @@ import backgroundImage from '../assets/bytebuilders.png';
 import backgroundImage2 from '../assets/bytebuilder-logocopy.png';
 import profileDefault from '../assets/anonymousprofile.png';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react';
 
 /** This is the HomePage*/
 
@@ -12,6 +13,29 @@ const bgByteBuilders = backgroundImage;
 const bgByteBuildersBlue = backgroundImage2;
 
 const HomePage = () => {
+  const isAuthenticated = () => {
+    const token = localStorage.getItem('token');
+    return !!token; 
+  };
+
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const handleExploreClick = () => {
+    if (isAuthenticated()) {
+      navigate('/feed'); 
+    } else {
+      toast({
+        title: 'Authentication Required',
+        description: 'Please sign up or log in to view articles.',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom', 
+      });
+      navigate('/login'); 
+    }
+  };
   
   const featureBubble1 ={
     fontFamily:"'Trebuchet MS', sans-serif",
@@ -114,7 +138,7 @@ const HomePage = () => {
       </Box>
       
       <Box textAlign="right">
-        <Button sx={ourElegantButton} marginLeft="auto">Explore</Button>
+        <Button sx={ourElegantButton} marginLeft="auto" onClick={handleExploreClick}>Explore</Button>
       </Box>
       
     </Container>
@@ -155,7 +179,7 @@ const HomePage = () => {
         </Box>
 
         <Box textAlign="right">
-          <Button sx={ourElegantButton} marginLeft="auto">Explore</Button>
+          <Button sx={ourElegantButton} marginLeft="auto" onClick={handleExploreClick}>Explore</Button>
         </Box>
 
       </Container>
@@ -176,7 +200,7 @@ const HomePage = () => {
       </Box>
       
       <Box textAlign="right">
-        <Button sx={ourElegantButton} marginLeft="auto">Explore</Button>
+        <Button sx={ourElegantButton} marginLeft="auto" onClick={handleExploreClick}>Explore</Button>
       </Box>
       
     </Container>

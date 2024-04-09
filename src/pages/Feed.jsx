@@ -11,20 +11,21 @@ const Feed = () => {
 
   const [posts, setPosts] = useState([]);
 
-    useEffect(()=>{
-      fetch('http://localhost:3000/api/blogposts')
+  useEffect(() => {
+    fetch('http://localhost:3000/api/blogposts')
       .then(response => response.json())
-      .then(data=>{
-        setPosts(data);
+      .then(data => {
+        const sortedData = data.sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate));
+        setPosts(sortedData);
       })
-      .catch(error=> console.error('Error fetching posts:', error));
-    },[])
+      .catch(error => console.error('Error fetching posts:', error));
+  }, []);
     return (
       <>
         <Navbar />
         <Heading padding= "50px" align="center">Feed</Heading>
         {posts.map((post, index) => (
-             <PostItem key={post._id || index} title = {post.title} content={post.content} username={post.author?.username} publishDate={post.publishDate} categories={post.categories}/>
+             <PostItem key={post._id || index} id={post._id} title = {post.title} content={post.content} username={post.author?.username} publishDate={post.publishDate} categories={post.categories} comments={post.comments}/>
         ))}
       </>
     );

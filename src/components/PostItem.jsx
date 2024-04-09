@@ -1,11 +1,11 @@
 import React from 'react';
-import Navbar from '../components/Navbar'; 
+import { Link } from 'react-router-dom';
 import {Avatar, Card, Container, CardHeader,CardFooter, Flex, Box, Heading, IconButton, CardBody, Text, Button} from '@chakra-ui/react';
 import profileDefault from '../assets/anonymousprofile.png';
 
 const myProfileDefault = profileDefault;
 
-const PostItem = ({title, content, username, categories, publishDate}) => {
+const PostItem = ({id, title, content, username, categories, publishDate, comments}) => {
     const categoryList = categories.map(cat => cat.name).join(', ');
     const dateString = publishDate;
     const firstTenChars = dateString.slice(0, 10);
@@ -38,9 +38,11 @@ const PostItem = ({title, content, username, categories, publishDate}) => {
             <Heading align="left" fontSize="50px">{title}</Heading>
                 <Text padding="20px 0px 0px 0px" align="left" fontSize="30px">{content2}</Text>
             </CardBody>
-            <CardFooter justify='right' flexWrap='wrap' >
-                
+            <CardFooter display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap">
+            <Text fontSize="sm">{comments.length} Comments</Text>
+            <Link to={`/blog/${id}`}>
                 <Button size="lg" variant="outline">Read More</Button>
+            </Link>
             </CardFooter>
         </Card>
         </Box>
