@@ -8,9 +8,15 @@ router.post('/', authenticateToken, createPost);
 
 router.post('/create', createPost);
 
+router.post('/create', createPost);
+
 router.get('/:id', authenticateToken, getPostById);
 
 router.get('/category/:categoryId', authenticateToken, getPostsByCategoryId);
+router.get('/', (req, res) =>{
+    getPosts(req,res);
+});
+
 router.get('/', (req, res) =>{
     getPosts(req,res);
 });
