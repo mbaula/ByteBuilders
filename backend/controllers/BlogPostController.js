@@ -32,7 +32,6 @@ export const getPostById = async (req, res) => {
     }
 };
 
-<<<<<<< HEAD
 export const getPostsByCategoryId = async (req, res) => {
     try {
       const { categoryId } = req.params; 
@@ -47,8 +46,6 @@ export const getPostsByCategoryId = async (req, res) => {
       res.status(400).json({ message: error.message });
     }
   };
-=======
->>>>>>> fac035a (Routing, and Feed Fix)
 
 export const updatePostById = async (req, res) => {
     try {

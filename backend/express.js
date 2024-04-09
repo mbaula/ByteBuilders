@@ -1,11 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-<<<<<<< HEAD
-import bodyParser from 'body-parser';
-=======
 import bodyParser from 'body-parser'; 
 
->>>>>>> fac035a (Routing, and Feed Fix)
 import userRoutes from './routes/userRoutes.js';
 import blogPostRoutes from './routes/blogPostRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';

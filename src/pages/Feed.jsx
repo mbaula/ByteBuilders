@@ -22,18 +22,10 @@ const Feed = () => {
     return (
       <>
         <Navbar />
-<<<<<<< HEAD
-        <Heading padding= "50px" textAlign="center">Feed</Heading>
-        <PostItem/>
-        <PostItem/>
-        <PostItem/>
-        <PostItem/>
-=======
         <Heading padding= "50px" align="center">Feed</Heading>
         {posts.map((post, index) => (
              <PostItem key={post._id || index} title = {post.title} content={post.content} username={post.author?.username} publishDate={post.publishDate} categories={post.categories}/>
         ))}
->>>>>>> fac035a (Routing, and Feed Fix)
       </>
     );
   };

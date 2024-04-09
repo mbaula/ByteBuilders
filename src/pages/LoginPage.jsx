@@ -46,11 +46,7 @@ const LoginPage = () => {
           isClosable: true,
         });
 
-<<<<<<< HEAD
-        navigate('/feed');
-=======
         navigate('/Feed');
->>>>>>> fac035a (Routing, and Feed Fix)
       } else {
         throw new Error(json.error || 'Something went wrong');
       }
