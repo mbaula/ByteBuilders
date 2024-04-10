@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser'; 
+import * as functions from 'firebase-functions'
 
 import userRoutes from './routes/userRoutes.js';
 import blogPostRoutes from './routes/blogPostRoutes.js';
