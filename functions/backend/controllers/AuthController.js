@@ -4,6 +4,7 @@ import config from '../config/config.js';
 import crypto from 'crypto';
 
 export const signin = async (req, res) => {
+    console.log('hitit')
     try {
         let user = await User.findOne({ email: req.body.email });
         if (!user) return res.status(401).json({ error: "User not found" });
@@ -22,10 +23,12 @@ export const signin = async (req, res) => {
 
 export const signup = async (req, res) => {
     const user = new User(req.body);
+    console.log(req.body);
     try {
         await user.save();
         return res.status(200).json({ message: "Successfully signed up!" });
     } catch (err) {
+        console.error(err);
         if (err.code === 11000) {
             const field = Object.keys(err.keyPattern)[0];
             return res.status(400).json({ error: `An account with that ${field} already exists.` });

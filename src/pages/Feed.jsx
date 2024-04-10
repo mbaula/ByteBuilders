@@ -13,7 +13,7 @@ const Feed = () => {
   const apiBaseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    fetch(`${apiBaseUrl}/api/blogposts`)
+    fetch(`${apiBaseUrl}/blogposts`)
       .then(response => response.json())
       .then(data => {
         const sortedData = data.sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate));

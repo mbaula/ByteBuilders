@@ -60,6 +60,7 @@ const SignupPage = () => {
     const apiBaseUrl = import.meta.env.VITE_API_URL;
 
     try {
+      console.log(data);
       let response = await fetch(`${apiBaseUrl}/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -76,6 +77,7 @@ const SignupPage = () => {
         });
 
         json = await response.json();
+        console.log(json);
         if (response.ok) {
           login(json.token); 
           toast({

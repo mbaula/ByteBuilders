@@ -17,10 +17,10 @@ app.get('/', (req, res) => {
     res.json({ message: 'ByteBuilder Backend Running' });
 });
 
-app.use('/api/users', userRoutes);
-app.use('/api/blogposts', blogPostRoutes);
-app.use('/api/categories', categoryRoutes);
-app.use('/api/comments', commentRoutes);
-app.use('/api', authRoutes);
+app.use('/users', userRoutes);
+app.use('/blogposts', blogPostRoutes);
+app.use('/categories', categoryRoutes);
+app.use('/comments', commentRoutes);
+app.use('/', authRoutes);
 
 export default app;
