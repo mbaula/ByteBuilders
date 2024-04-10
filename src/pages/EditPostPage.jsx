@@ -43,7 +43,7 @@ const EditPostPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`${apiBaseUrl}/api/categories`, {
+        const response = await fetch(`${apiBaseUrl}/categories`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -64,7 +64,7 @@ const EditPostPage = () => {
 
     const fetchPostData = async () => {
       try {
-        const response = await fetch(`${apiBaseUrl}/api/blogposts/${postId}`, {
+        const response = await fetch(`${apiBaseUrl}/blogposts/${postId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -114,7 +114,7 @@ const EditPostPage = () => {
         categories: [categoryId],
       };
 
-      const response = await fetch(`${apiBaseUrl}/api/blogposts/${postId}`, {
+      const response = await fetch(`${apiBaseUrl}/blogposts/${postId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

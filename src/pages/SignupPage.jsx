@@ -60,7 +60,7 @@ const SignupPage = () => {
     const apiBaseUrl = import.meta.env.VITE_API_URL;
 
     try {
-      let response = await fetch(`${apiBaseUrl}/api/signup`, {
+      let response = await fetch(`${apiBaseUrl}/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -69,7 +69,7 @@ const SignupPage = () => {
       let json = await response.json();
       if (response.ok) {
         // On successful signup attempt to sign in
-        response = await fetch(`${apiBaseUrl}/api/signin`, {
+        response = await fetch(`${apiBaseUrl}/signin`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: email, password: password }),

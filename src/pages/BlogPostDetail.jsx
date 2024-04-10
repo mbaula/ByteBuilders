@@ -42,7 +42,7 @@ const BlogPostDetail = () => {
 
     const fetchAuthorName = async (authorId) => {
       try {
-        const authorResponse = await fetch(`${apiBaseUrl}/api/users/${authorId}`, {
+        const authorResponse = await fetch(`${apiBaseUrl}/users/${authorId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -58,7 +58,7 @@ const BlogPostDetail = () => {
     const fetchCategoryNames = async (categoryIds) => {
       const names = await Promise.all(categoryIds.map(async (categoryId) => {
         try {
-          const categoryResponse = await fetch(`${apiBaseUrl}/api/categories/${categoryId}`, {
+          const categoryResponse = await fetch(`${apiBaseUrl}/categories/${categoryId}`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -75,7 +75,7 @@ const BlogPostDetail = () => {
 
     const fetchPost = async () => {
       try {
-        const response = await fetch(`${apiBaseUrl}/api/blogposts/${postId}`, {
+        const response = await fetch(`${apiBaseUrl}/blogposts/${postId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -113,7 +113,7 @@ const BlogPostDetail = () => {
     }
 
     try {
-      const response = await fetch(`${apiBaseUrl}/api/blogposts/${postId}`, {
+      const response = await fetch(`${apiBaseUrl}/blogposts/${postId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,

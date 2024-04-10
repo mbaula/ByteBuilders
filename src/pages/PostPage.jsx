@@ -76,7 +76,7 @@ const PostPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`${apiBaseUrl}/api/categories`);
+        const response = await fetch(`${apiBaseUrl}/categories`);
         if (!response.ok) {
           throw new Error('Failed to fetch categories');
         }
@@ -121,7 +121,7 @@ const PostPage = () => {
       return;
     }
     try {
-      const response = await fetch(`${apiBaseUrl}/api/categories`, {
+      const response = await fetch(`${apiBaseUrl}/categories`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ const PostPage = () => {
         categories: [categoryId],
       };
 
-      const response = await fetch(`${apiBaseUrl}/api/blogposts`, {
+      const response = await fetch(`${apiBaseUrl}/blogposts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

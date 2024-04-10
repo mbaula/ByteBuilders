@@ -20,7 +20,7 @@ const CategoriesPage = () => {
             throw new Error('Authentication token not found');
           }
       
-          const response = await fetch(`${apiBaseUrl}/api/categories`, {
+          const response = await fetch(`${apiBaseUrl}/categories`, {
             headers: {
               'Authorization': `Bearer ${token}`,
             },
@@ -57,7 +57,7 @@ const CategoriesPage = () => {
         return;
       }
       
-      const response = await fetch(`${apiBaseUrl}/api/blogposts/category/${selectedOption.value}`, {
+      const response = await fetch(`${apiBaseUrl}/blogposts/category/${selectedOption.value}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
