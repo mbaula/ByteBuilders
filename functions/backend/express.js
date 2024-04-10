@@ -11,7 +11,14 @@ import authRoutes from './routes/authRoutes.js'
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+const corsOptions = {
+    origin: ['https://bytebuilder.web.app', 'http://localhost:3000', 'http://localhost:5173'], 
+    optionsSuccessStatus: 200,
+    methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
+    credentials: true, 
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.json());
 app.get('/', (req, res) => {
     res.json({ message: 'ByteBuilder Backend Running' });
