@@ -43,3 +43,15 @@ This helps in ensuring that your changes do not break existing functionality and
 5. Push to your fork and submit a pull request.
 
 When submitting a pull request, please provide a clear description of the changes and any relevant issue numbers.
+
+## Screenshots:
+
+![image](https://github.com/mbaula/ByteBuilders/assets/57877999/87d1497d-f452-45ac-b4e7-0f2e2221ee14)
+![image](https://github.com/mbaula/ByteBuilders/assets/57877999/3d3cff56-8436-4e37-87d9-e20a089540c9)
+![image](https://github.com/mbaula/ByteBuilders/assets/57877999/88929a44-d5fd-4a56-940e-cca22aac8158)
+![image](https://github.com/mbaula/ByteBuilders/assets/57877999/d075933e-4bc7-4756-bd62-3ac36827ab41)
+![image](https://github.com/mbaula/ByteBuilders/assets/57877999/b46520fa-731d-41cb-bd54-afd7a68f95fe)
+
+
+
+
